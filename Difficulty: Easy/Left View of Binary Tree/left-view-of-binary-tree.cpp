@@ -1,52 +1,23 @@
-/*
-class Node {
-public:
-    int data;
-    Node* left;
-    Node* right;
+#include <vector>
 
-    Node(int val) {
-        data = val;
-        left = nullptr;
-        right = nullptr;
-    }
-};
-*/
+using namespace std;
 
 class Solution {
-  public:
-    vector<int> leftView(Node *root) {
-        // code here
+    void lView(Node* root, int level, vector<int>& ans) {
+        if (root == nullptr) return;
+        
+        if (level == ans.size()) {
+            ans.push_back(root->data);
+        }
+        
+        lView(root->left, level + 1, ans);
+        lView(root->right, level + 1, ans);
+    }
+    
+public:
+    vector<int> leftView(Node* root) {
         vector<int> ans;
-        
-        if (root == nullptr) {
-            return ans;
-        }
-        
-        queue<Node*> q;
-        q.push(root);
-        
-        while (!q.empty()) {
-            int size = q.size();
-            int max_val = INT_MIN;
-            
-            for (int i = 0; i < size; i++) {
-                if(i==0) ans.push_back(q.front()->data);
-                Node* temp = q.front();
-                q.pop();
-                
-                max_val = max(max_val, temp->data);
-                
-                if (temp->left != nullptr) {
-                    q.push(temp->left);
-                }
-                if (temp->right != nullptr) {
-                    q.push(temp->right);
-                }
-            }
-
-        }
-        
+        lView(root, 0, ans);
         return ans;
     }
 };
