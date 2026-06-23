@@ -1,48 +1,23 @@
-/*
-Definition for Node
-class Node {
-  public:
-    int data;
-    Node* left;
-    Node* right;
+#include <vector>
 
-    Node(int val) {
-        data = val;
-        left = right = nullptr;
-    }
-};
-*/
+using namespace std;
 
 class Solution {
-  public:
-    vector<int> rightView(Node *root) {
-        //  code here
-         vector<int> ans;
+    void rView(Node* root, int level, vector<int>& ans) {
+        if (root == nullptr) return;
         
-        if (root == nullptr) {
-            return ans;
+        if (level == ans.size()) {
+            ans.push_back(root->data);
         }
         
-        queue<Node*> q;
-        q.push(root);
-        
-        while (!q.empty()) {
-            int size = q.size();
-            
-            for (int i = 0; i < size; i++) {
-                if(i==size-1) ans.push_back(q.front()->data);
-                Node* temp = q.front();
-                q.pop();
-                if (temp->left != nullptr) {
-                    q.push(temp->left);
-                }
-                if (temp->right != nullptr) {
-                    q.push(temp->right);
-                }
-            }
-
-        }
-        
+        rView(root->right, level + 1, ans);
+        rView(root->left, level + 1, ans);
+    }
+    
+public:
+    vector<int> rightView(Node* root) {
+        vector<int> ans;
+        rView(root, 0, ans);
         return ans;
     }
 };
