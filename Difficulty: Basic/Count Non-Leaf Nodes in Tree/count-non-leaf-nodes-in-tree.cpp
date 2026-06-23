@@ -10,35 +10,17 @@ struct Node
 // the function should return the count of Non-Leaf Nodes
 class Solution {
   public:
+    void countNL(Node* root , int &count ){
+        if(root==NULL) return;
+        if(root->left !=NULL || root->right!=NULL) count++;
+        if(root->left==NULL && root->right == NULL) return;
+        countNL(root->left , count);
+        countNL(root->right , count);
+    }
     int countNonLeafNodes(Node* root) {
         // Code here
-        queue<Node*>q;
-        int count = 0;
-        if(root!=NULL){
-            q.push(root);
-           
-        }
-        else{
-            return -1;
-        }
-        while(!q.empty()){
-            Node *temp = q.front();
-            q.pop();
-            Node *left = temp->left;
-            if(left!=NULL){
-                q.push(left);
-     
-            }
-            Node *right = temp->right;
-            if(right!=NULL){
-                q.push(right);
-             
-            }
-            if(left!=NULL || right!=NULL){
-                count++;
-            }
-            
-        }
+        int count=0;
+        countNL(root, count);
         return count;
     }
 };
