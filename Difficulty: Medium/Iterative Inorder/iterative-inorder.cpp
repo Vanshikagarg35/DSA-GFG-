@@ -1,45 +1,51 @@
-#include <vector>
-#include <stack>
+/*
+Definition for Node
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
 
-using namespace std;
-
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
 class Solution {
-public:
+  public:
     vector<int> inOrder(Node* root) {
-        vector<int> ans;
-        if (root == nullptr) return ans;
-
-        stack<Node*> s;
-        stack<bool> visited;
-
+        vector<int>ans;
+        if(root==nullptr){
+            return ans;
+        }
+        stack<Node* >s;
+        stack<bool>visited;
         s.push(root);
         visited.push(0);
-
-        while (!s.empty()) {
-            Node* temp = s.top();
+        while(!s.empty()){
+            Node *temp = s.top();
             s.pop();
-            
             bool flag = visited.top();
             visited.pop();
-
-            if (!flag) {
-                if (temp->right) {
+            if(!flag){
+                if(temp->right){
                     s.push(temp->right);
                     visited.push(0);
                 }
-                
                 s.push(temp);
                 visited.push(1);
-                
-                if (temp->left) {
+                if(temp->left){
                     s.push(temp->left);
                     visited.push(0);
                 }
-            } else {
+            }
+            else{
                 ans.push_back(temp->data);
             }
         }
-        
         return ans;
+
+        
     }
 };
